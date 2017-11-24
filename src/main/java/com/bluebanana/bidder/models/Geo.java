@@ -6,6 +6,11 @@ public class Geo {
     private Double lat;
     private Double lon;
 
+    public Geo(String country, Double lat, Double lon) {
+        this.country = country;
+        this.lat = lat;
+        this.lon = lon;
+    }
 
     public String getCountry() {
         return country;

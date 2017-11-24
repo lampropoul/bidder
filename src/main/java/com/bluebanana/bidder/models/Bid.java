@@ -6,6 +6,12 @@ public class Bid {
     private App app;
     private Device device;
 
+    public Bid(String id, App app, Device device) {
+        this.id = id;
+        this.app = app;
+        this.device = device;
+    }
+
     public String getId() {
         return id;
     }

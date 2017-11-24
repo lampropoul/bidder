@@ -5,6 +5,11 @@ public class Device {
     private String os;
     private Geo geo;
 
+    public Device(String os, Geo geo) {
+        this.os = os;
+        this.geo = geo;
+    }
+
     public String getOs() {
         return os;
     }

@@ -6,6 +6,9 @@ public class Geo {
     private Double lat;
     private Double lon;
 
+    public Geo() {
+    }
+
     public Geo(String country, Double lat, Double lon) {
         this.country = country;
         this.lat = lat;

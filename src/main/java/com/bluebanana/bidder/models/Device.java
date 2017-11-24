@@ -1,20 +1,25 @@
 package com.bluebanana.bidder.models;
 
+import com.bluebanana.bidder.enums.Os;
+
 public class Device {
 
-    private String os;
+    private Os os;
     private Geo geo;
 
-    public Device(String os, Geo geo) {
+    public Device() {
+    }
+
+    public Device(Os os, Geo geo) {
         this.os = os;
         this.geo = geo;
     }
 
-    public String getOs() {
+    public Os getOs() {
         return os;
     }
 
-    public void setOs(String os) {
+    public void setOs(Os os) {
         this.os = os;
     }
 

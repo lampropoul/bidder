@@ -2,37 +2,40 @@ package com.bluebanana.bidder.models;
 
 public class Bid {
 
-    private String id;
-    private App app;
-    private Device device;
+    private String campainId;
+    private Double price;
+    private String adm;
 
-    public Bid(String id, App app, Device device) {
-        this.id = id;
-        this.app = app;
-        this.device = device;
+    public Bid() {
     }
 
-    public String getId() {
-        return id;
+    public Bid(String campainId, Double price, String adm) {
+        this.campainId = campainId;
+        this.price = price;
+        this.adm = adm;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getCampainId() {
+        return campainId;
     }
 
-    public App getApp() {
-        return app;
+    public void setCampainId(String campainId) {
+        this.campainId = campainId;
     }
 
-    public void setApp(App app) {
-        this.app = app;
+    public Double getPrice() {
+        return price;
     }
 
-    public Device getDevice() {
-        return device;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
-    public void setDevice(Device device) {
-        this.device = device;
+    public String getAdm() {
+        return adm;
+    }
+
+    public void setAdm(String adm) {
+        this.adm = adm;
     }
 }

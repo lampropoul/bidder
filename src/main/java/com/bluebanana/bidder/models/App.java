@@ -5,6 +5,9 @@ public class App {
     private String id;
     private String name;
 
+    public App() {
+    }
+
     public App(String id, String name) {
         this.id = id;
         this.name = name;

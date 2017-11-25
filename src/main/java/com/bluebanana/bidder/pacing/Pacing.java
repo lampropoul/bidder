@@ -1,9 +1,5 @@
 package com.bluebanana.bidder.pacing;
 
-
-import com.bluebanana.bidder.helpers.CampaignHelpers;
-import com.bluebanana.bidder.models.Campaign;
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -40,8 +36,7 @@ public class Pacing {
      */
     @PostConstruct
     public void loadCampaigns() throws IOException {
-        Campaign[] allCampaigns = new Gson().fromJson(getAllCampaigns(), Campaign[].class);
-        Arrays.stream(allCampaigns)
+        Arrays.stream(getAllCampaigns())
                 .forEach(campaign -> campaignsToBids.put(campaign.getId(), 0));
     }
 

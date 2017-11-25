@@ -1,6 +1,7 @@
 package com.bluebanana.bidder.helpers;
 
 import com.bluebanana.bidder.models.Campaign;
+import com.bluebanana.bidder.pacing.Pacing;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
@@ -11,6 +12,8 @@ import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.bluebanana.bidder.pacing.Pacing.campaignsToBids;
 
 public class CampaignHelpers {
 
@@ -23,17 +26,20 @@ public class CampaignHelpers {
      * @throws IOException
      */
     public static Campaign getHighestPayingCampaign(String country) throws IOException {
-        Gson gson = new Gson();
-        Campaign[] allCampaigns = gson.fromJson(getAllCampaigns(), Campaign[].class);
+        Campaign[] allCampaigns = new Gson().fromJson(getAllCampaigns(), Campaign[].class);
         List<Campaign> campaignList = Arrays.stream(allCampaigns)
                 .filter(campaign -> campaign.getTargetedCountries().contains(country))
                 .sorted((campaign1, campaign2) -> Double.compare(campaign2.getPrice(), campaign1.getPrice())) // reverse sort (DESC)
+                .filter(campaign -> Pacing.campaignDidNotReachPacingLimit(campaign.getId()))
                 .collect(Collectors.toList());
 
         if (campaignList.isEmpty()) {
             return new Campaign();
         } else {
-            return campaignList.get(0);
+            Campaign campaign = campaignList.get(0);
+            Integer numOfBids = campaignsToBids.get(campaign.getId());
+            campaignsToBids.replace(campaign.getId(), (numOfBids + 1));
+            return campaign;
         }
     }
 
@@ -43,7 +49,7 @@ public class CampaignHelpers {
      * @return
      * @throws IOException
      */
-    private static String getAllCampaigns() throws IOException {
+    public static String getAllCampaigns() throws IOException {
 //        TODO: Implement mocking (RestTemplate?)
         String campaignApiResponse = "https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/mock-campaign-api-response.json";
         URL url = new URL(campaignApiResponse);

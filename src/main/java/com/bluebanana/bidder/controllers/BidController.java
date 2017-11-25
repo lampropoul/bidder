@@ -5,7 +5,6 @@ import com.bluebanana.bidder.models.Bid;
 import com.bluebanana.bidder.models.BidRequest;
 import com.bluebanana.bidder.models.BidResponse;
 import com.bluebanana.bidder.models.Campaign;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

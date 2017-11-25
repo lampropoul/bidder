@@ -40,11 +40,8 @@ public class BidControllerTests {
         Device mockDevice = new Device(Os.Android, mockGeo);
         App mockApp = new App("e7fe51ce-4f63-7687-6353-ff0961c2cb0d", "Morecast Weather");
         BidRequest mockBidRequest = new BidRequest("e7fe51ce4f6376876353ff0961c2cb0d", mockApp, mockDevice);
-
         MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
-
         Campaign mockCampaign = CampaignHelpers.getHighestPayingCampaign(mockGeo.getCountry());
-        Object responseBodyObject = bidController.bid(mockBidRequest, mockHttpServletResponse, mockCampaign);
-        return responseBodyObject;
+        return bidController.bid(mockBidRequest, mockHttpServletResponse, mockCampaign);
     }
 }

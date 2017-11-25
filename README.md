@@ -1,8 +1,39 @@
-# Real-time bidder 
+## Real-time bidder 
+
+### Description
+
+- bla bla
+- bla bla
 
 
+### Docker installation instructions
+#### Ubuntu, Debian
+```
+apt-get install docker
+```
+or
+```
+apt install docker
+```
+#### CentOS, RHEL
+```
+yum install docker
+```
+#### macOS
+```
+brew install docker
+```
 
-## Test HTTP responses 
+## Run docker image
+```
+./bidder -p <port>
+```
+e.g.
+```
+./bidder -p 8888
+```
+
+## Test HTTP responses
 ```
 curl --include \
      --request POST \

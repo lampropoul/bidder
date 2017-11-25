@@ -22,7 +22,7 @@ public class Pacing {
 
     //    @Autowired
     //    private Environment env;
-    private static final int GLOBAL_PACING_LIMIT = 1;
+    public static final int GLOBAL_PACING_LIMIT = 100;
     private static final int GLOBAL_PACING_EXPIRATION = 60000; // millis
     public static Map<String, Integer> campaignsToBids = new HashMap<>(); // key = campaignId, value = # of bids
     private static final Logger log = LoggerFactory.getLogger(Pacing.class);

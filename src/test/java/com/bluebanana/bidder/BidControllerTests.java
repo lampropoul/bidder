@@ -11,6 +11,8 @@ import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
 
+import static com.bluebanana.bidder.pacing.Pacing.GLOBAL_PACING_LIMIT;
+
 public class BidControllerTests {
 
     BidController bidController = new BidController();
@@ -32,6 +34,7 @@ public class BidControllerTests {
 
     @Test
     public void respondWithoutABid() throws IOException {
+//        TODO: check response code, must be 204
         if (getRequestMockData("CYP") == null) {
             assert true;
             return;
@@ -41,7 +44,11 @@ public class BidControllerTests {
 
     @Test
     public void respondWithDifferentBid() throws IOException {
-        getRequestMockData("USA"); // price: 1.23
+        int i = GLOBAL_PACING_LIMIT;
+        while (i > 0) {
+            getRequestMockData("USA"); // price: 1.23
+            i--;
+        }
         BidResponse bidResponse = (BidResponse) getRequestMockData("USA");// price should be 0.39
         if (bidResponse.getBid().getPrice() == 0.39) {
             assert true;

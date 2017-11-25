@@ -31,10 +31,8 @@ public class BidControllerTests {
     }
 
     @Test
-    public void respondWithDifferentBid() throws IOException {
-        getRequestMockData("USA"); // price: 1.23
-        BidResponse bidResponse = (BidResponse) getRequestMockData("USA");// price should be 0.39
-        if (bidResponse.getBid().getPrice() == 0.39) {
+    public void respondWithoutABid() throws IOException {
+        if (getRequestMockData("CYP") == null) {
             assert true;
             return;
         }
@@ -42,8 +40,10 @@ public class BidControllerTests {
     }
 
     @Test
-    public void respondWithoutABid() throws IOException {
-        if (getRequestMockData("CYP") == null) {
+    public void respondWithDifferentBid() throws IOException {
+        getRequestMockData("USA"); // price: 1.23
+        BidResponse bidResponse = (BidResponse) getRequestMockData("USA");// price should be 0.39
+        if (bidResponse.getBid().getPrice() == 0.39) {
             assert true;
             return;
         }

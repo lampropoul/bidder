@@ -6,15 +6,11 @@ import com.bluebanana.bidder.helpers.CampaignHelpers;
 import com.bluebanana.bidder.models.*;
 import com.bluebanana.bidder.pacing.Pacing;
 import org.junit.Before;
-import org.junit.FixMethodOrder;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.mock.web.MockHttpServletResponse;
 
 import java.io.IOException;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class BidControllerTests {
 
     BidController bidController = new BidController();

@@ -16,7 +16,7 @@ public class BidControllerTests {
 
     @Test
     public void respondWithBid() throws IOException {
-//        TODO: Implement mocking
+//        TODO: Implement mocking differently?
         BidResponse bidResponse = (BidResponse) getRequestMockData("USA");
         if (bidResponse.getBid().getPrice() == 1.23) {
             assert true;
@@ -27,7 +27,7 @@ public class BidControllerTests {
 
     @Test
     public void respondWithoutABid() throws IOException {
-//        TODO: Implement mocking
+//        TODO: Implement mocking differently?
         if (getRequestMockData("CYP") == null) {
             assert true;
             return;

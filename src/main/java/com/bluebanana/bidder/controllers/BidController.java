@@ -20,7 +20,7 @@ public class BidController {
 
     @RequestMapping(value = "/bid", method = POST)
     public Object bid(@RequestBody BidRequest bidRequest, HttpServletResponse response, Campaign campaign) throws IOException {
-        if (campaign.getId() == null) {
+        if (campaign.getId() == null) { // this is for the case in which there is an HTTP POST request, not a test
             campaign = CampaignHelpers.getHighestPayingCampaign(bidRequest.getDevice().getGeo().getCountry());
         }
 

@@ -20,12 +20,13 @@ public class BidController {
 
     @RequestMapping(value = "/bid", method = POST)
     public Object bid(@RequestBody BidRequest bidRequest, HttpServletResponse response, Campaign campaign) throws IOException {
-        if (null == campaign.getId()) {
+        if (campaign.getId() == null) {
             campaign = CampaignHelpers.getHighestPayingCampaign(bidRequest.getDevice().getGeo().getCountry());
         }
 
-        if (null == campaign.getId()) { // not a single suitable Campaign was found
+        if (campaign.getId() == null) { // not a single suitable Campaign was found
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            return null;
         }
 
         Bid bid = new Bid(campaign.getId(), campaign.getPrice(), campaign.getAdm());

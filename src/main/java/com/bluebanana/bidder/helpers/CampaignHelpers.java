@@ -44,6 +44,7 @@ public class CampaignHelpers {
      * @throws IOException
      */
     private static String getAllCampaigns() throws IOException {
+//        TODO: Implement mocking
         String campaignApiResponse = "https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/mock-campaign-api-response.json";
         URL url = new URL(campaignApiResponse);
         URLConnection conn = url.openConnection();

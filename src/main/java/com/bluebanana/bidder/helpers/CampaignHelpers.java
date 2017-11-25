@@ -39,9 +39,9 @@ public class CampaignHelpers {
     }
 
     /**
-     * Get all Campaigns from Mock API
+     * Get all running Campaigns from Mock API
      *
-     * @return
+     * @return An array of Campaign objects
      * @throws IOException
      */
     public static Campaign[] getAllCampaigns() throws IOException {

@@ -10,7 +10,6 @@ import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
-import java.text.SimpleDateFormat;
 
 import static com.bluebanana.bidder.helpers.CampaignHelpers.getAllCampaigns;
 
@@ -24,8 +23,6 @@ public class Pacing {
     private static final int GLOBAL_PACING_RATE = 60000; // millis
     public static Map<String, Integer> campaignsToBids = new HashMap<>(); // key = campaignId, value = # of bids
     private static final Logger log = LoggerFactory.getLogger(Pacing.class);
-
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     /**
      * Initialize campaignsToBids map with zeros on all campaignIds
@@ -52,7 +49,7 @@ public class Pacing {
      */
     @Scheduled(fixedRate = GLOBAL_PACING_RATE)
     public void resetLimits() {
-        log.info("{} Resetting number of bids (=0) in the current time frame for all campaigns...", dateFormat.format(new Date()));
+        log.info("Resetting number of bids (=0) in the current time frame for all campaigns...");
         campaignsToBids
                 .keySet()
                 .stream()

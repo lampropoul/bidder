@@ -17,6 +17,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RestController
 public class BidController {
 
+    /**
+     * 
+     * @param bidRequest
+     * @param response
+     * @param campaign
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/bid", method = POST)
     public Object bid(@RequestBody BidRequest bidRequest, HttpServletResponse response, Campaign campaign) throws IOException {
         if (campaign.getId() == null) { // this is for the case in which there is an HTTP POST request, not a test

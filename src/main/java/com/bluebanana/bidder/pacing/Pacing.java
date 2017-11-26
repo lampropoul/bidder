@@ -25,7 +25,7 @@ public class Pacing {
     private static final Logger log = LoggerFactory.getLogger(Pacing.class);
 
     /**
-     * Initialize campaignsToBids map with zeros on all campaignIds
+     * Initialize pacing properties
      *
      * @throws IOException
      */
@@ -59,7 +59,7 @@ public class Pacing {
     }
 
     /**
-     * @param campaignId
+     * @param campaignId The id of the respective campaign
      * @return
      */
     public static boolean campaignDidNotReachPacingLimit(String campaignId) {

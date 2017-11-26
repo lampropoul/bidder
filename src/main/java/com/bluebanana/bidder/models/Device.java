@@ -1,6 +1,6 @@
 package com.bluebanana.bidder.models;
 
-import com.bluebanana.bidder.enums.Os;
+import com.bluebanana.bidder.models.enums.Os;
 
 public class Device {
 

@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
-import static com.bluebanana.bidder.helpers.CampaignAPI.getAllCampaigns;
+import static com.bluebanana.bidder.helpers.MockCampaignAPI.getAllCampaigns;
 
 
 @Component
@@ -59,7 +59,7 @@ public class Pacing {
     }
 
     /**
-     * @param campaignId The id of the respective campaign
+     * @param campaignId The id of the respective mockCampaign
      * @return
      */
     public static boolean campaignDidNotReachPacingLimit(String campaignId) {

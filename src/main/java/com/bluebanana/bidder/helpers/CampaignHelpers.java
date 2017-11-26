@@ -2,7 +2,6 @@ package com.bluebanana.bidder.helpers;
 
 import com.bluebanana.bidder.models.Campaign;
 import com.bluebanana.bidder.pacing.Pacing;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -11,16 +10,12 @@ import java.util.stream.Collectors;
 
 import static com.bluebanana.bidder.pacing.Pacing.campaignsToBids;
 
-public class CampaignAPI {
+public class CampaignHelpers {
 
-    /**
-     * Get all running Campaigns from Mock API
-     *
-     * @return An array of Campaign objects
-     * @throws IOException
-     */
-    public static Campaign[] getAllCampaigns() throws IOException {
-        return new RestTemplate().getForObject("https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/mock-campaign-api-response.json", Campaign[].class);
+    static Campaign[] availableMockCampaigns = new Campaign[0];
+
+    public static void setAvailableMockCampaigns(Campaign[] campaigns) {
+        availableMockCampaigns = campaigns;
     }
 
     /**
@@ -32,7 +27,7 @@ public class CampaignAPI {
      * @throws IOException
      */
     public static Campaign getHighestPayingCampaign(String country) throws IOException {
-        List<Campaign> campaignList = Arrays.stream(getAllCampaigns())
+        List<Campaign> campaignList = Arrays.stream(availableMockCampaigns)
                 .filter(campaign -> campaign.getTargetedCountries().contains(country))
                 .sorted((campaign1, campaign2) -> Double.compare(campaign2.getPrice(), campaign1.getPrice())) // reverse sort (DESC)
                 .filter(campaign -> Pacing.campaignDidNotReachPacingLimit(campaign.getId()))

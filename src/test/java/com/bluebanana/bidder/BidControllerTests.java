@@ -1,6 +1,8 @@
 package com.bluebanana.bidder;
 
 import com.bluebanana.bidder.controllers.BidController;
+import com.bluebanana.bidder.helpers.CampaignHelpers;
+import com.bluebanana.bidder.helpers.MockCampaignAPI;
 import com.bluebanana.bidder.models.*;
 import com.bluebanana.bidder.pacing.Pacing;
 import org.junit.Before;
@@ -23,6 +25,8 @@ public class BidControllerTests {
     @Before
     public void init() throws IOException {
         new Pacing().init();
+//        set mock data only for tests
+        CampaignHelpers.setAvailableMockCampaigns(MockCampaignAPI.getAllCampaigns());
     }
 
     /**
@@ -31,7 +35,8 @@ public class BidControllerTests {
      */
     @Test
     public void respondWithBid() throws IOException {
-        BidResponse bidResponse = (BidResponse) getRequestMockData(1);
+        BidRequest mockBidRequest = getRequestMockData(1);
+        BidResponse bidResponse = (BidResponse) bidController.bid(mockBidRequest, new MockHttpServletResponse());
         if (bidResponse.getBid().getPrice() == 1.23) {
             assert true;
             return;
@@ -45,27 +50,29 @@ public class BidControllerTests {
      */
     @Test
     public void respondWithoutABid() throws IOException {
-//        TODO: check response code, must be 204
-        if (getRequestMockData(2) == null) {
+        BidRequest mockBidRequest = getRequestMockData(2);
+        BidResponse bidResponse = (BidResponse) bidController.bid(mockBidRequest, new MockHttpServletResponse());
+        if (bidResponse == null) {
             assert true;
             return;
         }
         assert false;
     }
 
-    /**
+    /**q
      *
      * @throws IOException
      */
     @Test
     public void respondWithDifferentBid() throws IOException {
+//        use the same data as the first test case
+        BidRequest mockBidRequest = getRequestMockData(1);
         int i = GLOBAL_PACING_LIMIT;
         while (i > 0) {
-//            use the same data as the first test case
-            getRequestMockData(1); // price: 1.23
+            bidController.bid(mockBidRequest, new MockHttpServletResponse()); // price: 1.23
             i--;
         }
-        BidResponse bidResponse = (BidResponse) getRequestMockData(1);// price should be 0.39
+        BidResponse bidResponse = (BidResponse) bidController.bid(mockBidRequest, new MockHttpServletResponse());
         if (bidResponse.getBid().getPrice() == 0.39) {
             assert true;
             return;
@@ -79,10 +86,9 @@ public class BidControllerTests {
      * @return
      * @throws IOException
      */
-    private Object getRequestMockData(int testCase) throws IOException {
+    private BidRequest getRequestMockData(int testCase) throws IOException {
         String url = String.format("https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/test-case-%s-input.json", String.valueOf(testCase));
-        BidRequest mockBidRequest = new RestTemplate().getForObject(url, BidRequest.class);
-        MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
-        return bidController.bid(mockBidRequest, mockHttpServletResponse);
+        return new RestTemplate().getForObject(url, BidRequest.class);
+
     }
 }

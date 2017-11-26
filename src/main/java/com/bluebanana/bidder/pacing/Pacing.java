@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
 
-import static com.bluebanana.bidder.helpers.CampaignHelpers.getAllCampaigns;
+import static com.bluebanana.bidder.helpers.CampaignAPI.getAllCampaigns;
 
 
 @Component

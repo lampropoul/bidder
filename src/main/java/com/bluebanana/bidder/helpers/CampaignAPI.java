@@ -11,7 +11,17 @@ import java.util.stream.Collectors;
 
 import static com.bluebanana.bidder.pacing.Pacing.campaignsToBids;
 
-public class CampaignHelpers {
+public class CampaignAPI {
+
+    /**
+     * Get all running Campaigns from Mock API
+     *
+     * @return An array of Campaign objects
+     * @throws IOException
+     */
+    public static Campaign[] getAllCampaigns() throws IOException {
+        return new RestTemplate().getForObject("https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/mock-campaign-api-response.json", Campaign[].class);
+    }
 
     /**
      * The Campaign with the highest price
@@ -36,15 +46,5 @@ public class CampaignHelpers {
             campaignsToBids.replace(campaign.getId(), ++numOfBids);
             return campaign;
         }
-    }
-
-    /**
-     * Get all running Campaigns from Mock API
-     *
-     * @return An array of Campaign objects
-     * @throws IOException
-     */
-    public static Campaign[] getAllCampaigns() throws IOException {
-        return new RestTemplate().getForObject("https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/mock-campaign-api-response.json", Campaign[].class);
     }
 }

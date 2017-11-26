@@ -1,6 +1,6 @@
 package com.bluebanana.bidder.controllers;
 
-import com.bluebanana.bidder.helpers.CampaignHelpers;
+import com.bluebanana.bidder.helpers.CampaignAPI;
 import com.bluebanana.bidder.models.Bid;
 import com.bluebanana.bidder.models.BidRequest;
 import com.bluebanana.bidder.models.BidResponse;
@@ -21,15 +21,12 @@ public class BidController {
      * 
      * @param bidRequest
      * @param response
-     * @param campaign
      * @return
      * @throws IOException
      */
     @RequestMapping(value = "/bid", method = POST)
-    public Object bid(@RequestBody BidRequest bidRequest, HttpServletResponse response, Campaign campaign) throws IOException {
-        if (campaign.getId() == null) { // this is for the case in which there is an HTTP POST request, not a test
-            campaign = CampaignHelpers.getHighestPayingCampaign(bidRequest.getDevice().getGeo().getCountry());
-        }
+    public Object bid(@RequestBody BidRequest bidRequest, HttpServletResponse response) throws IOException {
+        Campaign campaign = CampaignAPI.getHighestPayingCampaign(bidRequest.getDevice().getGeo().getCountry());
 
         if (campaign.getId() == null) { // not a single suitable Campaign was found
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);

@@ -1,7 +1,6 @@
 package com.bluebanana.bidder;
 
 import com.bluebanana.bidder.controllers.BidController;
-import com.bluebanana.bidder.helpers.CampaignHelpers;
 import com.bluebanana.bidder.models.*;
 import com.bluebanana.bidder.pacing.Pacing;
 import org.junit.Before;
@@ -84,7 +83,6 @@ public class BidControllerTests {
         String url = String.format("https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/test-case-%s-input.json", String.valueOf(testCase));
         BidRequest mockBidRequest = new RestTemplate().getForObject(url, BidRequest.class);
         MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
-        Campaign mockCampaign = CampaignHelpers.getHighestPayingCampaign(mockBidRequest.getDevice().getGeo().getCountry());
-        return bidController.bid(mockBidRequest, mockHttpServletResponse, mockCampaign);
+        return bidController.bid(mockBidRequest, mockHttpServletResponse);
     }
 }

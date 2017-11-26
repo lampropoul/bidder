@@ -1,13 +1,13 @@
 package com.bluebanana.bidder;
 
 import com.bluebanana.bidder.controllers.BidController;
-import com.bluebanana.bidder.enums.Os;
 import com.bluebanana.bidder.helpers.CampaignHelpers;
 import com.bluebanana.bidder.models.*;
 import com.bluebanana.bidder.pacing.Pacing;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
@@ -17,14 +17,22 @@ public class BidControllerTests {
 
     BidController bidController = new BidController();
 
+    /**
+     *
+     * @throws IOException
+     */
     @Before
     public void init() throws IOException {
-        new Pacing().loadCampaigns();
+        new Pacing().init();
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Test
     public void respondWithBid() throws IOException {
-        BidResponse bidResponse = (BidResponse) getRequestMockData("USA");
+        BidResponse bidResponse = (BidResponse) getRequestMockData(1);
         if (bidResponse.getBid().getPrice() == 1.23) {
             assert true;
             return;
@@ -32,24 +40,33 @@ public class BidControllerTests {
         assert false;
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Test
     public void respondWithoutABid() throws IOException {
 //        TODO: check response code, must be 204
-        if (getRequestMockData("CYP") == null) {
+        if (getRequestMockData(2) == null) {
             assert true;
             return;
         }
         assert false;
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Test
     public void respondWithDifferentBid() throws IOException {
         int i = GLOBAL_PACING_LIMIT;
         while (i > 0) {
-            getRequestMockData("USA"); // price: 1.23
+//            use the same data as the first test case
+            getRequestMockData(1); // price: 1.23
             i--;
         }
-        BidResponse bidResponse = (BidResponse) getRequestMockData("USA");// price should be 0.39
+        BidResponse bidResponse = (BidResponse) getRequestMockData(1);// price should be 0.39
         if (bidResponse.getBid().getPrice() == 0.39) {
             assert true;
             return;
@@ -57,14 +74,17 @@ public class BidControllerTests {
         assert false;
     }
 
-    //    TODO: Implement mocking differently?
-    private Object getRequestMockData(String country) throws IOException {
-        Geo mockGeo = new Geo(country, 0.0, 0.0);
-        Device mockDevice = new Device(Os.Android, mockGeo);
-        App mockApp = new App("e7fe51ce-4f63-7687-6353-ff0961c2cb0d", "Morecast Weather");
-        BidRequest mockBidRequest = new BidRequest("e7fe51ce4f6376876353ff0961c2cb0d", mockApp, mockDevice);
+    /**
+     *
+     * @param testCase
+     * @return
+     * @throws IOException
+     */
+    private Object getRequestMockData(int testCase) throws IOException {
+        String url = String.format("https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/test-case-%s-input.json", String.valueOf(testCase));
+        BidRequest mockBidRequest = new RestTemplate().getForObject(url, BidRequest.class);
         MockHttpServletResponse mockHttpServletResponse = new MockHttpServletResponse();
-        Campaign mockCampaign = CampaignHelpers.getHighestPayingCampaign(mockGeo.getCountry());
+        Campaign mockCampaign = CampaignHelpers.getHighestPayingCampaign(mockBidRequest.getDevice().getGeo().getCountry());
         return bidController.bid(mockBidRequest, mockHttpServletResponse, mockCampaign);
     }
 }

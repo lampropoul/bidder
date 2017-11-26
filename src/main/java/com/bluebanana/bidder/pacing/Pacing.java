@@ -2,28 +2,26 @@ package com.bluebanana.bidder.pacing;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
+import java.util.*;
 import java.text.SimpleDateFormat;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.bluebanana.bidder.helpers.CampaignHelpers.getAllCampaigns;
 
 
-//@PropertySource("classpath:application.properties")
 @Component
+@PropertySource("classpath:application.properties")
 public class Pacing {
 
-    //    @Autowired
-    //    private Environment env;
-    public static final int GLOBAL_PACING_LIMIT = 100;
-    private static final int GLOBAL_PACING_EXPIRATION = 60000; // millis
+    public static int GLOBAL_PACING_LIMIT;
+    public static int GLOBAL_PACING_LIMIT_DEFAULT = 1;
+    private static final int GLOBAL_PACING_RATE = 60000; // millis
     public static Map<String, Integer> campaignsToBids = new HashMap<>(); // key = campaignId, value = # of bids
     private static final Logger log = LoggerFactory.getLogger(Pacing.class);
 
@@ -35,12 +33,24 @@ public class Pacing {
      * @throws IOException
      */
     @PostConstruct
-    public void loadCampaigns() throws IOException {
+    public void init() throws IOException {
         Arrays.stream(getAllCampaigns())
                 .forEach(campaign -> campaignsToBids.put(campaign.getId(), 0));
+
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("src/main/resources/application.properties"));
+        String limit = properties.getProperty("global.pacing.limit");
+        if (limit == null || "".equals(limit)) {
+            GLOBAL_PACING_LIMIT = GLOBAL_PACING_LIMIT_DEFAULT;
+        } else {
+            GLOBAL_PACING_LIMIT = Integer.valueOf(limit);
+        }
     }
 
-    @Scheduled(fixedRate = GLOBAL_PACING_EXPIRATION)
+    /**
+     *
+     */
+    @Scheduled(fixedRate = GLOBAL_PACING_RATE)
     public void resetLimits() {
         log.info("{} Resetting number of bids (=0) in the current time frame for all campaigns...", dateFormat.format(new Date()));
         campaignsToBids
@@ -51,11 +61,14 @@ public class Pacing {
         log.info("Done.");
     }
 
+    /**
+     * @param campaignId
+     * @return
+     */
     public static boolean campaignDidNotReachPacingLimit(String campaignId) {
         if (campaignsToBids.get(campaignId) < GLOBAL_PACING_LIMIT) {
             return true;
         }
         return false;
     }
-
 }

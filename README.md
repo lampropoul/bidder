@@ -6,35 +6,29 @@
 - bla bla
 
 
-### Docker installation instructions
-#### Ubuntu, Debian
-```
-apt-get install docker
-```
-or
-```
-apt install docker
-```
-#### CentOS, RHEL
-```
-yum install docker
-```
-#### macOS
-```
-brew install docker
-```
+### Run instructions
+This project requires Docker CE.
 
-## Run docker image
+#### Install Docker
+https://docs.docker.com/engine/installation/
+
+#### Run bidder (docker image) on Unix-based systems 
 ```
+cd /path/to/project
 ./bidder -p <port>
 ```
 e.g.
 ```
+cd /Users/vlamp/Developer/bidder
 ./bidder -p 8888
 ```
 
+
+
 ## Test HTTP responses
 ```
+export BIDDER_PORT=<port>
+export BIDDER_COUNTRY=<country-code>
 curl --include \
      --request POST \
      --header "Content-Type: application/json" \
@@ -47,11 +41,11 @@ curl --include \
   \"device\": {
     \"os\": \"Android\",
     \"geo\": {
-      \"country\": \"USA\",
+      \"country\": \"$BIDDER_COUNTRY\",
       \"lat\": 0,
       \"lon\": 0
     }
   }
 }" \
-http://localhost:<port>/bid
+http://localhost:$BIDDER_PORT/bid
 ```

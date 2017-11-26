@@ -12,11 +12,7 @@ import static com.bluebanana.bidder.pacing.Pacing.campaignsToBids;
 
 public class CampaignHelpers {
 
-    static Campaign[] availableMockCampaigns = new Campaign[0];
-
-    public static void setAvailableMockCampaigns(Campaign[] campaigns) {
-        availableMockCampaigns = campaigns;
-    }
+    private static Campaign[] availableMockCampaigns = new Campaign[0];
 
     /**
      * The Campaign with the highest price
@@ -41,5 +37,13 @@ public class CampaignHelpers {
             campaignsToBids.replace(campaign.getId(), ++numOfBids);
             return campaign;
         }
+    }
+
+    public static Campaign[] getAvailableMockCampaigns() {
+        return availableMockCampaigns;
+    }
+
+    public static void setAvailableMockCampaigns(Campaign[] availableMockCampaigns) {
+        CampaignHelpers.availableMockCampaigns = availableMockCampaigns;
     }
 }

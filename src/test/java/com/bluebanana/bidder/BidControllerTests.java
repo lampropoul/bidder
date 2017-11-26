@@ -3,7 +3,8 @@ package com.bluebanana.bidder;
 import com.bluebanana.bidder.controllers.BidController;
 import com.bluebanana.bidder.helpers.CampaignHelpers;
 import com.bluebanana.bidder.helpers.MockCampaignAPI;
-import com.bluebanana.bidder.models.*;
+import com.bluebanana.bidder.models.BidRequest;
+import com.bluebanana.bidder.models.BidResponse;
 import com.bluebanana.bidder.pacing.Pacing;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,18 +20,16 @@ public class BidControllerTests {
     BidController bidController = new BidController();
 
     /**
-     *
      * @throws IOException
      */
     @Before
     public void init() throws IOException {
-        new Pacing().init();
 //        set mock data only for tests
         CampaignHelpers.setAvailableMockCampaigns(MockCampaignAPI.getAllCampaigns());
+        new Pacing().init();
     }
 
     /**
-     *
      * @throws IOException
      */
     @Test
@@ -45,7 +44,6 @@ public class BidControllerTests {
     }
 
     /**
-     *
      * @throws IOException
      */
     @Test
@@ -59,7 +57,8 @@ public class BidControllerTests {
         assert false;
     }
 
-    /**q
+    /**
+     * q
      *
      * @throws IOException
      */
@@ -81,7 +80,6 @@ public class BidControllerTests {
     }
 
     /**
-     *
      * @param testCase
      * @return
      * @throws IOException

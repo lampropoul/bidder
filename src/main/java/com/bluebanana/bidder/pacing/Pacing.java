@@ -1,5 +1,7 @@
 package com.bluebanana.bidder.pacing;
 
+import com.bluebanana.bidder.helpers.CampaignHelpers;
+import com.bluebanana.bidder.helpers.MockCampaignAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.PropertySource;
@@ -9,9 +11,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
-
-import static com.bluebanana.bidder.helpers.MockCampaignAPI.getAllCampaigns;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 
 @Component
@@ -31,7 +34,7 @@ public class Pacing {
      */
     @PostConstruct
     public void init() throws IOException {
-        Arrays.stream(getAllCampaigns())
+        Arrays.stream(CampaignHelpers.getAvailableMockCampaigns())
                 .forEach(campaign -> campaignsToBids.put(campaign.getId(), 0));
 
         Properties properties = new Properties();

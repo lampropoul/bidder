@@ -48,7 +48,9 @@ public class Pacing {
     }
 
     /**
-     *
+     * This method runs every GLOBAL_PACING_RATE millis
+     * just to reset the number of bids for every campaign
+     * that were made in the last GLOBAL_PACING_RATE millis
      */
     @Scheduled(fixedRate = GLOBAL_PACING_RATE)
     public void resetLimits() {
@@ -62,8 +64,10 @@ public class Pacing {
     }
 
     /**
+     * Method to filter all of the campaigns that reached the pacing limit
      * @param campaignId The id of the respective mockCampaign
-     * @return
+     * @return true if the limit did not get reached
+     * @see CampaignHelpers#getHighestPayingCampaign(String)
      */
     public static boolean campaignDidNotReachPacingLimit(String campaignId) {
         if (campaignsToBids.get(campaignId) < GLOBAL_PACING_LIMIT) {

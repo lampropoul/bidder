@@ -17,7 +17,7 @@ public class CampaignHelpers {
     /**
      * The Campaign with the highest price
      *
-     * @param country
+     * @param country Country code using ISO-3166-1-alpha-3.
      * @return The first list item since it is sorted in descending order
      * or an empty Campaign if no Campaign that matches the criteria was found
      * @throws IOException
@@ -39,10 +39,16 @@ public class CampaignHelpers {
         }
     }
 
+    /**
+     * @return availableMockCampaigns
+     */
     public static Campaign[] getAvailableMockCampaigns() {
         return availableMockCampaigns;
     }
 
+    /**
+     * @param availableMockCampaigns
+     */
     public static void setAvailableMockCampaigns(Campaign[] availableMockCampaigns) {
         CampaignHelpers.availableMockCampaigns = availableMockCampaigns;
     }

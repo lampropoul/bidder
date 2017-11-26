@@ -20,6 +20,7 @@ public class BidControllerTests {
     BidController bidController = new BidController();
 
     /**
+     * Initialize mock data and (real) properties
      * @throws IOException
      */
     @Before
@@ -30,6 +31,7 @@ public class BidControllerTests {
     }
 
     /**
+     * Test 1: Must respond with the highest bid for a campaign that runs in the USA
      * @throws IOException
      */
     @Test
@@ -44,6 +46,7 @@ public class BidControllerTests {
     }
 
     /**
+     * Test 2: Must respond with an empty bid since there are no campaigns running in CYP
      * @throws IOException
      */
     @Test
@@ -58,8 +61,7 @@ public class BidControllerTests {
     }
 
     /**
-     * q
-     *
+     * Test 3: Must respond with the second highest bid for a campaign that runs in the USA
      * @throws IOException
      */
     @Test
@@ -80,6 +82,8 @@ public class BidControllerTests {
     }
 
     /**
+     * Method that is used from all tests and constructs BidRequest sample object.
+     * This BidRequest should come from 3rd-party ad exchange platform.
      * @param testCase
      * @return
      * @throws IOException

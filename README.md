@@ -12,23 +12,28 @@ The technology stack comprises of
 - `Apache Tomcat` as a lightweight Java Servlet container
 - `Docker CE` for quick and easy deployment
 
-### Run instructions
+### Run instructions for Unix-based systems
 
 - [Install Docker](https://docs.docker.com/engine/installation/)
 
-- Run bidder script on Unix-based systems: 
+- Open up a terminal
+
+- ```cd /path/to/project```
+
+- In `src/main/resources/application.properties` change `global.pacing.limit`
+and `campaign.mock.url` if you like. Default values are already set.
+
+- Run bidder script:
     ```
-    cd /path/to/project
     ./bidder -p <port>
     ```
     e.g.
     ```
-    cd /Users/vlamp/Developer/bidder
-    ./bidder -p 8888  #be careful to select a port that is not used in your system
+    ./bidder -p 8888
     ```
 
-The application now should automatically download and install a Java 8 docker image,
-then download maven binaries that are needed to test and run the project,
+The application should now automatically download and install a Java 8 docker image,
+then download maven binaries that are needed to build, test and run the project,
 run maven application tests and finally fire up Tomcat server with the deployed Bidder API. 
 Enjoy!
 

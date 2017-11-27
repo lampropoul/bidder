@@ -49,29 +49,4 @@ public class PacingTest {
         assert true;
     }
 
-//    /**
-//     * Must check if a campaign has not reached pacing limit
-//     *
-//     * @throws Exception
-//     */
-//    @Test
-//    public void campaignDidNotReachPacingLimit() throws Exception {
-//        new Pacing().resetLimits();
-//
-//        Optional<Campaign> first = Arrays.stream(CampaignHelpers.getAvailableMockCampaigns()).findFirst();
-//        if (first == null) {
-//            assert false;
-//            return;
-//        }
-//        if (first.isPresent()) {
-//            Campaign campaign = first.get();
-//            Integer numOfBids = campaignsToBids.get(campaign.getId());
-//            assert numOfBids == 0;
-//            campaignsToBids.replace(campaign.getId(), GLOBAL_PACING_LIMIT);
-//            assert !Pacing.campaignDidNotReachPacingLimit(campaign.getId());
-//            return;
-//        }
-//        assert true;
-//    }
-
 }

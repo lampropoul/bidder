@@ -1,15 +1,14 @@
 package com.bluebanana.bidder.pacing;
 
 import com.bluebanana.bidder.helpers.CampaignHelpers;
-import com.bluebanana.bidder.helpers.MockCampaignAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,7 +17,6 @@ import java.util.Properties;
 
 
 @Component
-@PropertySource("classpath:application.properties")
 public class Pacing {
 
     public static int GLOBAL_PACING_LIMIT;
@@ -38,13 +36,21 @@ public class Pacing {
                 .forEach(campaign -> campaignsToBids.put(campaign.getId(), 0));
 
         Properties properties = new Properties();
-        properties.load(new FileInputStream("src/main/resources/application.properties"));
-        String limit = properties.getProperty("global.pacing.limit");
-        if (limit == null || "".equals(limit)) {
-            GLOBAL_PACING_LIMIT = GLOBAL_PACING_LIMIT_DEFAULT;
-        } else {
-            GLOBAL_PACING_LIMIT = Integer.valueOf(limit);
+        String limit = null;
+        try {
+            properties.load(new FileInputStream("src/main/resources/application.properties"));
+            limit = properties.getProperty("global.pacing.limit");
+        } catch (FileNotFoundException ex) {
+            System.out.println(String.format("{}: {}", ex.getCause(), ex.getMessage()));
+            System.out.println(String.format("Falling back to default pacing limit equal to {}...", GLOBAL_PACING_LIMIT_DEFAULT));
+        } finally {
+            if (limit == null || "".equals(limit)) {
+                GLOBAL_PACING_LIMIT = GLOBAL_PACING_LIMIT_DEFAULT;
+            } else {
+                GLOBAL_PACING_LIMIT = Integer.valueOf(limit);
+            }
         }
+
     }
 
     /**
@@ -65,6 +71,7 @@ public class Pacing {
 
     /**
      * Method to filter all of the campaigns that reached the pacing limit
+     *
      * @param campaignId The id of the respective mockCampaign
      * @return true if the limit did not get reached
      * @see CampaignHelpers#getHighestPayingCampaign(String)

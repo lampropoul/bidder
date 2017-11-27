@@ -17,7 +17,7 @@ public class BidderApplicationTest {
     @Before
     public void setUp() throws Exception {
 //        set mock data only for tests
-        MockCampaignAPI.loadCampaignProperties();
+        new MockCampaignAPI().loadCampaignUrl();
         MockCampaignAPI.getAllCampaigns();
         Pacing.resetAndLoadPacingProperties();
     }

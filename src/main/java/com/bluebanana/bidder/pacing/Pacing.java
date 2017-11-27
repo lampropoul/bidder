@@ -1,6 +1,7 @@
 package com.bluebanana.bidder.pacing;
 
 import com.bluebanana.bidder.helpers.CampaignHelpers;
+import com.bluebanana.bidder.helpers.MockCampaignAPI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -33,7 +34,7 @@ public class Pacing {
     @PostConstruct
     public void init() throws IOException {
         campaignsToBids = new HashMap<>();
-        Arrays.stream(CampaignHelpers.getAvailableMockCampaigns())
+        Arrays.stream(MockCampaignAPI.getAllCampaigns())
                 .forEach(campaign -> campaignsToBids.put(campaign.getId(), 0));
 
         Properties properties = new Properties();

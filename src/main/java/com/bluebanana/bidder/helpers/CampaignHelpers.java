@@ -26,7 +26,7 @@ public class CampaignHelpers {
      * @throws IOException
      */
     public static Campaign getHighestPayingCampaign(String country) throws IOException {
-        List<Campaign> campaignList = Arrays.stream(availableMockCampaigns)
+        List<Campaign> campaignList = Arrays.stream(MockCampaignAPI.getAllCampaigns())
                 .filter(campaign -> campaign.getTargetedCountries().contains(country))
                 .sorted((campaign1, campaign2) -> Double.compare(campaign2.getPrice(), campaign1.getPrice())) // reverse sort (DESC)
                 .filter(campaign -> Pacing.campaignDidNotReachPacingLimit(campaign.getId()))

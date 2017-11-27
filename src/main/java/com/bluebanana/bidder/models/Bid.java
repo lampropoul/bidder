@@ -12,7 +12,27 @@ public class Bid {
         this.adm = adm;
     }
 
+    public String getCampainId() {
+        return campainId;
+    }
+
+    public void setCampainId(String campainId) {
+        this.campainId = campainId;
+    }
+
     public Double getPrice() {
         return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public String getAdm() {
+        return adm;
+    }
+
+    public void setAdm(String adm) {
+        this.adm = adm;
     }
 }

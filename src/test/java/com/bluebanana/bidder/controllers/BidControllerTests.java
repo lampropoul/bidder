@@ -1,6 +1,5 @@
 package com.bluebanana.bidder.controllers;
 
-import com.bluebanana.bidder.helpers.CampaignHelpers;
 import com.bluebanana.bidder.helpers.MockCampaignAPI;
 import com.bluebanana.bidder.models.BidRequest;
 import com.bluebanana.bidder.models.BidResponse;
@@ -27,7 +26,7 @@ public class BidControllerTests {
     public void init() throws IOException {
 //        set mock data only for tests
         new MockCampaignAPI().init();
-        CampaignHelpers.setAvailableMockCampaigns(MockCampaignAPI.getAllCampaigns());
+        MockCampaignAPI.getAllCampaigns();
         new Pacing().init();
     }
 

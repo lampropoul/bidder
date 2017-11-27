@@ -9,12 +9,12 @@ import org.junit.Test;
 public class CampaignHelpersTest {
     @Before
     public void setUp() throws Exception {
-        BidderApplicationTest.setUp();
+        new BidderApplicationTest().setUp();
     }
 
     @After
     public void tearDown() throws Exception {
-        BidderApplicationTest.tearDown();
+        new BidderApplicationTest().tearDown();
     }
 
     @Test

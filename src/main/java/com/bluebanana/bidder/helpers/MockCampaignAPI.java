@@ -1,13 +1,12 @@
 package com.bluebanana.bidder.helpers;
 
 import com.bluebanana.bidder.models.Campaign;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 /**
  * Custom class to mock the Campaign API
@@ -15,13 +14,18 @@ import java.util.Properties;
 @Component
 public class MockCampaignAPI {
 
-    private static String mockUrl;
+    @Value("${campaign.mock.url}")
+    private String mockUrl;
+    private static String mockUrlSt;
 
     @PostConstruct
     public void init() throws IOException {
-        Properties p = new Properties();
-        p.load(new FileInputStream("src/main/resources/application.properties"));
-        mockUrl = p.getProperty("campaign.mock.url");
+        if (mockUrl != null) {
+            mockUrlSt = mockUrl;
+        }
+//        Properties p = new Properties();
+//        p.load(new FileInputStream("src/main/resources/application.properties"));
+//        mockUrl = p.getProperty("campaign.mock.url");
     }
 
     /**
@@ -31,6 +35,6 @@ public class MockCampaignAPI {
      * @throws IOException
      */
     public static Campaign[] getAllCampaigns() throws IOException {
-        return new RestTemplate().getForObject(mockUrl, Campaign[].class);
+        return new RestTemplate().getForObject(mockUrlSt, Campaign[].class);
     }
 }

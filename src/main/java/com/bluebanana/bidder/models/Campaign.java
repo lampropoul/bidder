@@ -18,15 +18,39 @@ public class Campaign {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Double getPrice() {
         return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getAdm() {
         return adm;
     }
 
+    public void setAdm(String adm) {
+        this.adm = adm;
+    }
+
     public List<String> getTargetedCountries() {
         return targetedCountries;
+    }
+
+    public void setTargetedCountries(List<String> targetedCountries) {
+        this.targetedCountries = targetedCountries;
     }
 }

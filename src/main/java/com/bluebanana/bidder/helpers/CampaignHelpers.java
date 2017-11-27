@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 
 import static com.bluebanana.bidder.pacing.Pacing.campaignsToBids;
 
+/**
+ * This class holds all helper methods for the Campaigns
+ */
 public class CampaignHelpers {
 
     private static Campaign[] availableMockCampaigns = new Campaign[0];

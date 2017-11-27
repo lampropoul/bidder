@@ -22,7 +22,7 @@ public class Pacing {
     public static int GLOBAL_PACING_LIMIT;
     public static int GLOBAL_PACING_LIMIT_DEFAULT = 1;
     private static final int GLOBAL_PACING_RATE = 60000; // millis
-    public static Map<String, Integer> campaignsToBids = new HashMap<>(); // key = campaignId, value = # of bids
+    public static Map<String, Integer> campaignsToBids; // key = campaignId, value = # of bids
     private static final Logger log = LoggerFactory.getLogger(Pacing.class);
 
     /**
@@ -32,6 +32,7 @@ public class Pacing {
      */
     @PostConstruct
     public void init() throws IOException {
+        campaignsToBids = new HashMap<>();
         Arrays.stream(CampaignHelpers.getAvailableMockCampaigns())
                 .forEach(campaign -> campaignsToBids.put(campaign.getId(), 0));
 

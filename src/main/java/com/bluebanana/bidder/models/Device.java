@@ -7,27 +7,7 @@ public class Device {
     private Os os;
     private Geo geo;
 
-    public Device() {
-    }
-
-    public Device(Os os, Geo geo) {
-        this.os = os;
-        this.geo = geo;
-    }
-
-    public Os getOs() {
-        return os;
-    }
-
-    public void setOs(Os os) {
-        this.os = os;
-    }
-
     public Geo getGeo() {
         return geo;
-    }
-
-    public void setGeo(Geo geo) {
-        this.geo = geo;
     }
 }

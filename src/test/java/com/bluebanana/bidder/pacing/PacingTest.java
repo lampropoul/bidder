@@ -1,31 +1,14 @@
 package com.bluebanana.bidder.pacing;
 
 import com.bluebanana.bidder.BidderApplicationTest;
-import com.bluebanana.bidder.helpers.CampaignHelpers;
-import com.bluebanana.bidder.models.Campaign;
-import org.junit.After;
-import org.junit.Before;
+import com.bluebanana.bidder.helpers.MockCampaignAPI;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static com.bluebanana.bidder.pacing.Pacing.GLOBAL_PACING_LIMIT;
 import static com.bluebanana.bidder.pacing.Pacing.campaignsToBids;
-import static org.junit.Assert.*;
 
-public class PacingTest {
-    @Before
-    public void setUp() throws Exception {
-        new BidderApplicationTest().setUp();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        new BidderApplicationTest().tearDown();
-    }
+public class PacingTest extends BidderApplicationTest {
 
     /**
      * Must set all values of the campaignsToBids map to zero
@@ -39,7 +22,7 @@ public class PacingTest {
             assert false;
             return;
         }
-        Arrays.stream(CampaignHelpers.getAvailableMockCampaigns())
+        Arrays.stream(MockCampaignAPI.getAllCampaigns())
                 .forEach(campaign -> {
                     if (campaignsToBids.get(campaign.getId()) != 0) {
                         assert false;

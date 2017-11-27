@@ -15,8 +15,6 @@ import static com.bluebanana.bidder.pacing.Pacing.campaignsToBids;
  */
 public class CampaignHelpers {
 
-    private static Campaign[] availableMockCampaigns = new Campaign[0];
-
     /**
      * The Campaign with the highest price
      *
@@ -42,17 +40,4 @@ public class CampaignHelpers {
         }
     }
 
-    /**
-     * @return availableMockCampaigns
-     */
-    public static Campaign[] getAvailableMockCampaigns() {
-        return availableMockCampaigns;
-    }
-
-    /**
-     * @param availableMockCampaigns
-     */
-    public static void setAvailableMockCampaigns(Campaign[] availableMockCampaigns) {
-        CampaignHelpers.availableMockCampaigns = availableMockCampaigns;
-    }
 }

@@ -1,10 +1,8 @@
 package com.bluebanana.bidder.controllers;
 
-import com.bluebanana.bidder.helpers.MockCampaignAPI;
+import com.bluebanana.bidder.BidderApplicationTest;
 import com.bluebanana.bidder.models.BidRequest;
 import com.bluebanana.bidder.models.BidResponse;
-import com.bluebanana.bidder.pacing.Pacing;
-import org.junit.Before;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.client.RestTemplate;
@@ -13,22 +11,9 @@ import java.io.IOException;
 
 import static com.bluebanana.bidder.pacing.Pacing.GLOBAL_PACING_LIMIT;
 
-public class BidControllerTests {
+public class BidControllerTests extends BidderApplicationTest {
 
     BidController bidController = new BidController();
-
-    /**
-     * Initialize mock data and (real) properties
-     *
-     * @throws IOException
-     */
-    @Before
-    public void init() throws IOException {
-//        set mock data only for tests
-        new MockCampaignAPI().init();
-        MockCampaignAPI.getAllCampaigns();
-        new Pacing().init();
-    }
 
     /**
      * Test 1: Must respond with the highest bid for a campaign that runs in the USA

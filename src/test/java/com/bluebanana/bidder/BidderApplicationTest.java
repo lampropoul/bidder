@@ -17,14 +17,14 @@ public class BidderApplicationTest {
     @Before
     public void setUp() throws Exception {
 //        set mock data only for tests
-        new MockCampaignAPI().init();
+        MockCampaignAPI.loadCampaignProperties();
         MockCampaignAPI.getAllCampaigns();
-        new Pacing().init();
+        Pacing.resetAndLoadPacingProperties();
     }
 
     @After
     public void tearDown() throws Exception {
-        new Pacing().resetLimits();
+        Pacing.resetLimits();
     }
 
 }

@@ -32,7 +32,7 @@ public class Pacing {
      * @throws IOException
      */
     @PostConstruct
-    public void init() throws IOException {
+    public static void resetAndLoadPacingProperties() throws IOException {
         campaignsToBids = new HashMap<>();
         Arrays.stream(MockCampaignAPI.getAllCampaigns())
                 .forEach(campaign -> campaignsToBids.put(campaign.getId(), 0));
@@ -61,7 +61,7 @@ public class Pacing {
      * that were made in the last GLOBAL_PACING_RATE millis
      */
     @Scheduled(fixedRate = GLOBAL_PACING_RATE)
-    public void resetLimits() {
+    public static void resetLimits() {
         log.info("Resetting number of bids (=0) in the current time frame for all campaigns...");
         campaignsToBids
                 .keySet()

@@ -17,7 +17,7 @@ public class PacingTest extends BidderApplicationTest {
      */
     @Test
     public void init() throws Exception {
-        new Pacing().init();
+        new Pacing().resetAndLoadPacingProperties();
         if (campaignsToBids == null) {
             assert false;
             return;

@@ -18,7 +18,7 @@ public class MockCampaignAPI {
     private static String mockUrl;
 
     @PostConstruct
-    public void init() throws IOException {
+    public static void loadCampaignProperties() throws IOException {
         Properties p = new Properties();
         p.load(new FileInputStream("src/main/resources/application.properties"));
         mockUrl = p.getProperty("campaign.mock.url");

@@ -32,14 +32,14 @@ public class BidController {
      */
     @RequestMapping(value = "/bid", method = POST)
     public Object bid(@RequestBody BidRequest bidRequest, HttpServletResponse response) throws IOException {
-        Campaign mockCampaign = CampaignHelpers.getHighestPayingCampaign(bidRequest.getDevice().getGeo().getCountry());
+        Campaign highestPayingCampaign = CampaignHelpers.getHighestPayingCampaign(bidRequest.getDevice().getGeo().getCountry());
 
-        if (mockCampaign.getId() == null) { // not a single suitable Campaign was found
+        if (highestPayingCampaign.getId() == null) { // not a single suitable Campaign was found
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
             return null; // the response is flushed to client so return null instead of the response object
         }
 
-        Bid bid = new Bid(mockCampaign.getId(), mockCampaign.getPrice(), mockCampaign.getAdm());
+        Bid bid = new Bid(highestPayingCampaign.getId(), highestPayingCampaign.getPrice(), highestPayingCampaign.getAdm());
         return new BidResponse(bidRequest.getId(), bid);
     }
 

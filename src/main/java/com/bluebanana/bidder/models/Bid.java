@@ -2,22 +2,22 @@ package com.bluebanana.bidder.models;
 
 public class Bid {
 
-    private String campainId;
+    private String campaignId;
     private Double price;
     private String adm;
 
-    public Bid(String campainId, Double price, String adm) {
-        this.campainId = campainId;
+    public Bid(String campaignId, Double price, String adm) {
+        this.campaignId = campaignId;
         this.price = price;
         this.adm = adm;
     }
 
-    public String getCampainId() {
-        return campainId;
+    public String getCampaignId() {
+        return campaignId;
     }
 
-    public void setCampainId(String campainId) {
-        this.campainId = campainId;
+    public void setCampaignId(String campaignId) {
+        this.campaignId = campaignId;
     }
 
     public Double getPrice() {

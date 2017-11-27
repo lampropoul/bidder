@@ -22,9 +22,14 @@ public class MockCampaignAPI {
 
     private static String mockUrl;
 
+    /**
+     * Load campaign mock URL
+     *
+     * @throws IOException
+     */
     @PostConstruct
     public void loadCampaignUrl() throws IOException {
-        if (injectedMockUrl == null) {
+        if (injectedMockUrl == null) { // if injection has failed then load properties manually
             Properties p = new Properties();
             p.load(new FileInputStream("src/main/resources/application.properties"));
             mockUrl = p.getProperty("campaign.mock.url");

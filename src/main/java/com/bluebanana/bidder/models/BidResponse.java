@@ -10,7 +10,19 @@ public class BidResponse {
         this.bid = bid;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Bid getBid() {
         return bid;
+    }
+
+    public void setBid(Bid bid) {
+        this.bid = bid;
     }
 }

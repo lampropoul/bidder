@@ -10,7 +10,23 @@ public class BidRequest {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public App getApp() {
+        return app;
+    }
+
+    public void setApp(App app) {
+        this.app = app;
+    }
+
     public Device getDevice() {
         return device;
+    }
+
+    public void setDevice(Device device) {
+        this.device = device;
     }
 }

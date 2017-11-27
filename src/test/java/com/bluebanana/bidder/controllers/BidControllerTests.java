@@ -1,6 +1,5 @@
 package com.bluebanana.bidder.controllers;
 
-import com.bluebanana.bidder.controllers.BidController;
 import com.bluebanana.bidder.helpers.CampaignHelpers;
 import com.bluebanana.bidder.helpers.MockCampaignAPI;
 import com.bluebanana.bidder.models.BidRequest;

@@ -3,17 +3,18 @@ package com.bluebanana.bidder.controllers;
 import com.bluebanana.bidder.BidderApplicationTest;
 import com.bluebanana.bidder.models.BidRequest;
 import com.bluebanana.bidder.models.BidResponse;
+import lombok.NoArgsConstructor;
 import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 
 import static com.bluebanana.bidder.pacing.Pacing.GLOBAL_PACING_LIMIT;
 
+@NoArgsConstructor
 public class BidControllerTests extends BidderApplicationTest {
 
-    BidController bidController = new BidController();
+    private final BidController bidController = new BidController();
 
     /**
      * Test 1: Must respond with the highest bid for a campaign that runs in the USA
@@ -22,13 +23,8 @@ public class BidControllerTests extends BidderApplicationTest {
      */
     @Test
     public void respondWithBid() throws IOException {
-        BidRequest mockBidRequest = getRequestMockData(1);
-        BidResponse bidResponse = (BidResponse) bidController.bid(mockBidRequest, new MockHttpServletResponse());
-        if (bidResponse.getBid().getPrice() == 1.23) {
-            assert true;
-            return;
-        }
-        assert false;
+        BidResponse bidResponse = bidController.bid(getRequestMockData(1)).getBody();
+        assert bidResponse.getBid().getPrice() == 1.23;
     }
 
     /**
@@ -39,12 +35,8 @@ public class BidControllerTests extends BidderApplicationTest {
     @Test
     public void respondWithoutABid() throws IOException {
         BidRequest mockBidRequest = getRequestMockData(2);
-        BidResponse bidResponse = (BidResponse) bidController.bid(mockBidRequest, new MockHttpServletResponse());
-        if (bidResponse == null) {
-            assert true;
-            return;
-        }
-        assert false;
+        BidResponse bidResponse = bidController.bid(mockBidRequest).getBody();
+        assert bidResponse == null;
     }
 
     /**
@@ -58,15 +50,11 @@ public class BidControllerTests extends BidderApplicationTest {
         BidRequest mockBidRequest = getRequestMockData(1);
         int i = GLOBAL_PACING_LIMIT;
         while (i > 0) {
-            bidController.bid(mockBidRequest, new MockHttpServletResponse()); // price: 1.23
+            bidController.bid(mockBidRequest); // price: 1.23
             i--;
         }
-        BidResponse bidResponse = (BidResponse) bidController.bid(mockBidRequest, new MockHttpServletResponse());
-        if (bidResponse.getBid().getPrice() == 0.39) {
-            assert true;
-            return;
-        }
-        assert false;
+        BidResponse bidResponse = bidController.bid(mockBidRequest).getBody();
+        assert bidResponse.getBid().getPrice() == 0.39;
     }
 
     /**
@@ -74,11 +62,9 @@ public class BidControllerTests extends BidderApplicationTest {
      * This BidRequest should come from 3rd-party ad exchange platform.
      *
      * @param testCase
-     * @return
-     * @throws IOException
      */
-    private BidRequest getRequestMockData(int testCase) throws IOException {
-        String url = String.format("https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/test-case-%s-input.json", String.valueOf(testCase));
+    private BidRequest getRequestMockData(int testCase) {
+        String url = String.format("https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/test-case-%s-input.json", testCase);
         return new RestTemplate().getForObject(url, BidRequest.class);
 
     }

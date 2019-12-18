@@ -18,7 +18,7 @@ public class MockCampaignAPI {
 
     //    Inject from properties file
     @Value("${campaign.mock.url}")
-    private String injectedMockUrl;
+    private static String injectedMockUrl;
 
     private static String mockUrl;
 
@@ -28,7 +28,7 @@ public class MockCampaignAPI {
      * @throws IOException
      */
     @PostConstruct
-    public void loadCampaignUrl() throws IOException {
+    public static void loadCampaignUrl() throws IOException {
         if (injectedMockUrl == null) { // if injection has failed then load properties manually
             Properties p = new Properties();
             p.load(new FileInputStream("src/main/resources/application.properties"));
@@ -44,7 +44,7 @@ public class MockCampaignAPI {
      * @return An array of Campaign objects
      * @throws IOException
      */
-    public static Campaign[] getAllCampaigns() throws IOException {
+    public static Campaign[] getAllCampaigns() {
         return new RestTemplate().getForObject(mockUrl, Campaign[].class);
     }
 }

@@ -17,17 +17,14 @@ public class PacingTest extends BidderApplicationTest {
      */
     @Test
     public void init() throws Exception {
-        new Pacing().resetAndLoadPacingProperties();
+        Pacing.resetAndLoadPacingProperties();
         if (campaignsToBids == null) {
             assert false;
             return;
         }
         Arrays.stream(MockCampaignAPI.getAllCampaigns())
                 .forEach(campaign -> {
-                    if (campaignsToBids.get(campaign.getId()) != 0) {
-                        assert false;
-                        return;
-                    }
+                    assert campaignsToBids.get(campaign.getId()) == 0;
                 });
         assert true;
     }

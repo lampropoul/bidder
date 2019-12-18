@@ -9,11 +9,7 @@ public class MockCampaignAPITest extends BidderApplicationTest {
     @Test
     public void getAllCampaigns() throws Exception {
         Campaign[] allCampaigns = MockCampaignAPI.getAllCampaigns();
-        if (allCampaigns.length != 0) {
-            assert true;
-            return;
-        }
-        assert false;
+        assert allCampaigns.length != 0;
     }
 
 }

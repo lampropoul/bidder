@@ -40,6 +40,7 @@ public class BidControllerTests {
                 HttpMethod.POST,
                 getRequestEntity("test-case-1-input.json", BidRequest.class),
                 BidResponse.class);
+        assert response.getBody() != null;
         assert response.getBody().getBid().getPrice() == 1.23;
     }
 

@@ -3,7 +3,10 @@ package com.bluebanana.bidder.controllers;
 import com.bluebanana.bidder.models.BidRequest;
 import com.bluebanana.bidder.models.BidResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -11,13 +14,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BidControllerTests {
 
     private final HttpHeaders httpHeaders = new HttpHeaders();
@@ -31,14 +34,15 @@ public class BidControllerTests {
     /**
      * Test 1: Must respond with the highest bid for a campaign that runs in the USA
      *
-     * @throws IOException
+     * @throws IOException If input file does not exist
      */
     @Test
+    @Order(1)
     public void respondWithBid() throws IOException {
         ResponseEntity<BidResponse> response = restTemplate.exchange(
                 "http://localhost:" + port + "/bid",
                 HttpMethod.POST,
-                getRequestEntity("test-case-1-input.json", BidRequest.class),
+                getRequestEntity("test-case-1-input.json"),
                 BidResponse.class);
         assert response.getBody() != null;
         assert response.getBody().getBid().getPrice() == 1.23;
@@ -47,48 +51,46 @@ public class BidControllerTests {
     /**
      * Test 2: Must respond with an empty bid since there are no campaigns running in CYP
      *
-     * @throws IOException
+     * @throws IOException If input file does not exist
      */
-//    @Test
-//    public void respondWithoutABid() {
-//        BidRequest mockBidRequest = getRequestMockData(2);
-//        BidResponse bidResponse = bidController.bid(mockBidRequest).getBody();
-//        assert bidResponse == null;
-//    }
+    @Test
+    @Order(2)
+    public void respondWithoutABid() throws IOException {
+        ResponseEntity<BidResponse> response = restTemplate.exchange(
+                "http://localhost:" + port + "/bid",
+                HttpMethod.POST,
+                getRequestEntity("test-case-2-input.json"),
+                BidResponse.class);
+        assert response.getBody() == null;
+    }
 
     /**
      * Test 3: Must respond with the second highest bid for a campaign that runs in the USA
      *
-     * @throws IOException
+     * @throws IOException If input file does not exist
      */
-//    @Test
-//    public void respondWithDifferentBid() {
-////        use the same data as the first test case
-//        BidRequest mockBidRequest = getRequestMockData(1);
-//        int i = pacing.GLOBAL_PACING_LIMIT;
-//        while (i > 0) {
-//            bidController.bid(mockBidRequest); // price: 1.23
-//            i--;
-//        }
-//        BidResponse bidResponse = bidController.bid(mockBidRequest).getBody();
-//        assert bidResponse.getBid().getPrice() == 0.39;
-//    }
-
-    /**
-     * Method that is used from all tests and constructs BidRequest sample object.
-     * This BidRequest should come from 3rd-party ad exchange platform.
-     *
-     * @param testCase
-     */
-    private BidRequest getRequestMockData(int testCase) {
-        String url = String.format("https://avocarrot.github.io/hiring/back-end/bidder-exercise/test-cases/test-case-%s-input.json", testCase);
-        return new RestTemplate().getForObject(url, BidRequest.class);
-
+    @Test
+    @Order(3)
+    public void respondWithDifferentBid() throws IOException {
+        int i = 1;
+        ResponseEntity<BidResponse> response = null;
+        while (i > 0) {
+            response = restTemplate.exchange(
+                    "http://localhost:" + port + "/bid",
+                    HttpMethod.POST,
+                    getRequestEntity("test-case-1-input.json"),
+                    BidResponse.class); // price: 1.23
+            i--;
+        }
+        assert response != null;
+        assert response.getBody() != null;
+        assert response.getBody().getBid() != null;
+        assert response.getBody().getBid().getPrice() == 0.39;
     }
 
-    <T> HttpEntity<T> getRequestEntity(String resourceFilename, Class<T> classType) throws IOException {
+    HttpEntity<BidRequest> getRequestEntity(String resourceFilename) throws IOException {
         Resource resource = resourceLoader.getResource("classpath:" + resourceFilename);
-        T entity = objectMapper.readValue(resource.getFile(), classType);
+        BidRequest entity = objectMapper.readValue(resource.getFile(), BidRequest.class);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         List<MediaType> mediaTypes = new ArrayList<>();
         mediaTypes.add(MediaType.APPLICATION_JSON);

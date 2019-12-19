@@ -72,15 +72,13 @@ public class BidControllerTests {
     @Test
     @Order(3)
     public void respondWithDifferentBid() throws IOException {
-        int i = 1;
         ResponseEntity<BidResponse> response = null;
-        while (i > 0) {
+        for (int i = 1; i > 0; i--) {
             response = restTemplate.exchange(
                     "http://localhost:" + port + "/bid",
                     HttpMethod.POST,
                     getRequestEntity("test-case-1-input.json"),
-                    BidResponse.class); // price: 1.23
-            i--;
+                    BidResponse.class);
         }
         assert response != null;
         assert response.getBody() != null;
@@ -88,7 +86,7 @@ public class BidControllerTests {
         assert response.getBody().getBid().getPrice() == 0.39;
     }
 
-    HttpEntity<BidRequest> getRequestEntity(String resourceFilename) throws IOException {
+    private HttpEntity<BidRequest> getRequestEntity(String resourceFilename) throws IOException {
         Resource resource = resourceLoader.getResource("classpath:" + resourceFilename);
         BidRequest entity = objectMapper.readValue(resource.getFile(), BidRequest.class);
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -97,4 +95,5 @@ public class BidControllerTests {
         httpHeaders.setAccept(mediaTypes);
         return new HttpEntity<>(entity, httpHeaders);
     }
+
 }

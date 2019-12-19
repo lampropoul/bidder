@@ -5,6 +5,7 @@ import com.bluebanana.bidder.pacing.Pacing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class CampaignHelpers {
      * @return The first list item since it is sorted in descending order
      * or an empty Campaign if no Campaign that matches the criteria was found
      */
-    public Optional<Campaign> getHighestPayingCampaign(String country) {
+    public Optional<Campaign> getHighestPayingCampaign(String country) throws IOException {
         List<Campaign> campaignList = Arrays.stream(api.getAllCampaigns())
                 .filter(campaign -> campaign.getTargetedCountries().contains(country))
                 .sorted((campaign1, campaign2) -> Double.compare(campaign2.getPrice(), campaign1.getPrice())) // reverse sort (DESC)

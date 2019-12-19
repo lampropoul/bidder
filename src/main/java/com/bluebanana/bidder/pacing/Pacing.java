@@ -9,6 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class Pacing {
      * Initialize pacing properties
      */
     @PostConstruct
-    public void resetAndLoadPacingProperties() {
+    public void resetAndLoadPacingProperties() throws IOException {
         campaignsToNumOfBids = new HashMap<>();
         Arrays
                 .stream(api.getAllCampaigns())

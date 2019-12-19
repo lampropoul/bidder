@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -32,7 +33,7 @@ public class BidController {
      * and the HTTP response code is 404
      */
     @PostMapping
-    public ResponseEntity<BidResponse> bid(@RequestBody BidRequest bidRequest) {
+    public ResponseEntity<BidResponse> bid(@RequestBody BidRequest bidRequest) throws IOException {
         AtomicReference<ResponseEntity<BidResponse>> responseEntity = new AtomicReference<>();
         Optional<Campaign> highestPayingCampaign = campaignHelpers.getHighestPayingCampaign(bidRequest.getDevice().getGeo().getCountry());
         highestPayingCampaign.ifPresentOrElse(

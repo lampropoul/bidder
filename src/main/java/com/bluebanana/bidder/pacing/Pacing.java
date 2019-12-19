@@ -2,6 +2,7 @@ package com.bluebanana.bidder.pacing;
 
 import com.bluebanana.bidder.helpers.CampaignHelpers;
 import com.bluebanana.bidder.helpers.MockCampaignAPI;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,22 +13,25 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class Pacing {
 
     @Value("${global.pacing.limit}")
-    public static int GLOBAL_PACING_LIMIT = 1; // TODO, does not inject
-    public static Map<String, Integer> campaignsToNumOfBids;
+    public int GLOBAL_PACING_LIMIT;
+    public Map<String, Integer> campaignsToNumOfBids;
+
+    private final MockCampaignAPI api;
 
     /**
      * Initialize pacing properties
      */
     @PostConstruct
-    public static void resetAndLoadPacingProperties() {
+    public void resetAndLoadPacingProperties() {
         campaignsToNumOfBids = new HashMap<>();
         Arrays
-                .stream(MockCampaignAPI.getAllCampaigns())
+                .stream(api.getAllCampaigns())
                 .forEach(campaign -> campaignsToNumOfBids.put(campaign.getId(), 0));
     }
 
@@ -35,7 +39,7 @@ public class Pacing {
      * This method runs every minute just to reset the number of bids for every campaign that were made in the last GLOBAL_PACING_RATE millis
      */
     @Scheduled(fixedRate = 60000) // TODO, make configurable
-    public static void resetLimits() {
+    public void resetLimits() {
         log.info("Resetting number of bids (=0) in the current time frame for all campaigns...");
         campaignsToNumOfBids
                 .keySet()
@@ -50,7 +54,7 @@ public class Pacing {
      * @return true if the limit did not get reached
      * @see CampaignHelpers#getHighestPayingCampaign(String)
      */
-    public static boolean campaignDidNotReachPacingLimit(String campaignId) {
+    public boolean campaignDidNotReachPacingLimit(String campaignId) {
         return campaignsToNumOfBids.get(campaignId) < GLOBAL_PACING_LIMIT;
     }
 }

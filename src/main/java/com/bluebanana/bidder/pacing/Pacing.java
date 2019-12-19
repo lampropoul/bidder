@@ -8,7 +8,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,33 +17,29 @@ import java.util.Map;
 public class Pacing {
 
     @Value("${global.pacing.limit}")
-    public static final int GLOBAL_PACING_LIMIT = 1;
-    private static final int GLOBAL_PACING_RATE = 60000; // millis
-    public static Map<String, Integer> campaignsToBids; // key = campaignId, value = # of bids
+    public static int GLOBAL_PACING_LIMIT = 1; // TODO, does not inject
+    public static Map<String, Integer> campaignsToNumOfBids;
 
     /**
      * Initialize pacing properties
-     *
-     * @throws IOException
      */
     @PostConstruct
-    public static void resetAndLoadPacingProperties() throws IOException {
-        campaignsToBids = new HashMap<>();
-        Arrays.stream(MockCampaignAPI.getAllCampaigns())
-                .forEach(campaign -> campaignsToBids.put(campaign.getId(), 0));
+    public static void resetAndLoadPacingProperties() {
+        campaignsToNumOfBids = new HashMap<>();
+        Arrays
+                .stream(MockCampaignAPI.getAllCampaigns())
+                .forEach(campaign -> campaignsToNumOfBids.put(campaign.getId(), 0));
     }
 
     /**
-     * This method runs every GLOBAL_PACING_RATE millis
-     * just to reset the number of bids for every campaign
-     * that were made in the last GLOBAL_PACING_RATE millis
+     * This method runs every minute just to reset the number of bids for every campaign that were made in the last GLOBAL_PACING_RATE millis
      */
-    @Scheduled(fixedRate = GLOBAL_PACING_RATE)
+    @Scheduled(fixedRate = 60000) // TODO, make configurable
     public static void resetLimits() {
         log.info("Resetting number of bids (=0) in the current time frame for all campaigns...");
-        campaignsToBids
+        campaignsToNumOfBids
                 .keySet()
-                .forEach(campaignId -> campaignsToBids.replace(campaignId, 0));
+                .forEach(campaignId -> campaignsToNumOfBids.replace(campaignId, 0));
         log.info("Done.");
     }
 
@@ -56,6 +51,6 @@ public class Pacing {
      * @see CampaignHelpers#getHighestPayingCampaign(String)
      */
     public static boolean campaignDidNotReachPacingLimit(String campaignId) {
-        return campaignsToBids.get(campaignId) < GLOBAL_PACING_LIMIT;
+        return campaignsToNumOfBids.get(campaignId) < GLOBAL_PACING_LIMIT;
     }
 }

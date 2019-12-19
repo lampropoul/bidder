@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
-/**
- * Class for controlling REST HTTP requests
- */
 @RestController
 public class BidController {
 
@@ -26,10 +21,9 @@ public class BidController {
      * @return A new BidResponse with the corresponding body
      * or null if no Campaign was found, so no bid is returned
      * and the HTTP response code is 204
-     * @throws IOException
      */
-    @PostMapping(value = "/bid")
-    public ResponseEntity<BidResponse> bid(@RequestBody BidRequest bidRequest) throws IOException {
+    @PostMapping("/bid")
+    public ResponseEntity<BidResponse> bid(@RequestBody BidRequest bidRequest) {
         Campaign highestPayingCampaign = CampaignHelpers.getHighestPayingCampaign(bidRequest.getDevice().getGeo().getCountry());
 
         if (highestPayingCampaign.getId() == null) { // not a single suitable Campaign was found

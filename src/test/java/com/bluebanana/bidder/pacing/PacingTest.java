@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static com.bluebanana.bidder.pacing.Pacing.campaignsToBids;
+import static com.bluebanana.bidder.pacing.Pacing.campaignsToNumOfBids;
 
 public class PacingTest extends BidderApplicationTest {
 
@@ -18,15 +18,12 @@ public class PacingTest extends BidderApplicationTest {
     @Test
     public void init() throws Exception {
         Pacing.resetAndLoadPacingProperties();
-        if (campaignsToBids == null) {
-            assert false;
-            return;
-        }
-        Arrays.stream(MockCampaignAPI.getAllCampaigns())
+        assert campaignsToNumOfBids != null;
+        Arrays
+                .stream(MockCampaignAPI.getAllCampaigns())
                 .forEach(campaign -> {
-                    assert campaignsToBids.get(campaign.getId()) == 0;
+                    assert campaignsToNumOfBids.get(campaign.getId()) == 0;
                 });
-        assert true;
     }
 
 }

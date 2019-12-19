@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bluebanana.bidder.pacing.Pacing.campaignsToBids;
+import static com.bluebanana.bidder.pacing.Pacing.campaignsToNumOfBids;
 
 /**
  * This class holds all helper methods for the Campaigns
@@ -23,7 +23,7 @@ public class CampaignHelpers {
      * or an empty Campaign if no Campaign that matches the criteria was found
      * @throws IOException
      */
-    public static Campaign getHighestPayingCampaign(String country) throws IOException {
+    public static Campaign getHighestPayingCampaign(String country) {
         List<Campaign> campaignList = Arrays.stream(MockCampaignAPI.getAllCampaigns())
                 .filter(campaign -> campaign.getTargetedCountries().contains(country))
                 .sorted((campaign1, campaign2) -> Double.compare(campaign2.getPrice(), campaign1.getPrice())) // reverse sort (DESC)
@@ -34,8 +34,8 @@ public class CampaignHelpers {
             return new Campaign();
         } else {
             Campaign campaign = campaignList.get(0);
-            Integer numOfBids = campaignsToBids.get(campaign.getId());
-            campaignsToBids.replace(campaign.getId(), ++numOfBids);
+            Integer numOfBids = campaignsToNumOfBids.get(campaign.getId());
+            campaignsToNumOfBids.replace(campaign.getId(), ++numOfBids);
             return campaign;
         }
     }

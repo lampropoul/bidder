@@ -16,7 +16,7 @@ import java.util.Properties;
 @Component
 public class MockCampaignAPI {
 
-    //    Inject from properties file
+    // Inject from properties file
     @Value("${campaign.mock.url}")
     private static String injectedMockUrl;
 
@@ -42,7 +42,6 @@ public class MockCampaignAPI {
      * Get all running Campaigns from Mock Campaign API
      *
      * @return An array of Campaign objects
-     * @throws IOException
      */
     public static Campaign[] getAllCampaigns() {
         return new RestTemplate().getForObject(mockUrl, Campaign[].class);

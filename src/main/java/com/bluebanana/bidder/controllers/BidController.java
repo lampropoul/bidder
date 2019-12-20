@@ -25,10 +25,8 @@ public class BidController {
     private final CampaignHelpers campaignHelpers;
 
     /**
-     * Method to process POST requests on /bid endpoint
-     *
-     * @param bidRequest
-     * @return A new BidResponse with the corresponding body
+     * @param bidRequest The request from the client
+     * @return A BidResponse with the corresponding body
      * or null if no Campaign was found, so no bid is returned
      * and the HTTP response code is 404
      */

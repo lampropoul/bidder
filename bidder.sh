@@ -26,4 +26,4 @@ fi
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 echo "Starting docker container..."
 echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-docker run -it --rm --name bidder-container -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven -p "$2":8080 openjdk:11 ./mvnw test spring-boot:run
+docker run -it --rm --name bidder-container -v "$PWD":/usr/src/mymaven -w /usr/src/mymaven -p "$2":8080 ibm-semeru-runtimes:open-18-jdk-centos7 ./mvnw test spring-boot:run

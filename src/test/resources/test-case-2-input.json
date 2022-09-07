@@ -5,7 +5,7 @@
     "name": "Morecast Weather"
   },
   "device": {
-    "os": "Android",
+    "operatingSystem": "ANDROID",
     "geo": {
       "country": "CYP",
       "lat": 0,

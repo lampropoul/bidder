@@ -4,22 +4,27 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bluebanana.bidder.models.Campaign;
 import com.bluebanana.bidder.pacing.Pacing;
-import lombok.RequiredArgsConstructor;
 
 /**
  * This class holds all helper methods for the Campaigns
  */
-@Component
-@RequiredArgsConstructor
+@Service
 public class CampaignHelper {
     
     private final Pacing pacing;
     
     private final MockCampaignAPI api;
+    
+    @Autowired
+    public CampaignHelper(final Pacing pacing, final MockCampaignAPI api) {
+        this.pacing = pacing;
+        this.api = api;
+    }
     
     /**
      * The Campaign with the highest price

@@ -1,12 +1,10 @@
 package com.bluebanana.bidder.controllers;
 
-import com.bluebanana.bidder.helpers.CampaignHelper;
-import com.bluebanana.bidder.models.Bid;
-import com.bluebanana.bidder.models.BidRequest;
-import com.bluebanana.bidder.models.BidResponse;
-import com.bluebanana.bidder.models.Campaign;
-import lombok.RequiredArgsConstructor;
+import java.io.IOException;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,16 +12,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
+import com.bluebanana.bidder.helpers.CampaignHelper;
+import com.bluebanana.bidder.models.Bid;
+import com.bluebanana.bidder.models.BidRequest;
+import com.bluebanana.bidder.models.BidResponse;
+import com.bluebanana.bidder.models.Campaign;
 
 @RestController
 @RequestMapping("/bid")
-@RequiredArgsConstructor
 public class BidController {
     
     private final CampaignHelper campaignHelper;
+    
+    @Autowired
+    public BidController(final CampaignHelper campaignHelper) {
+        this.campaignHelper = campaignHelper;
+    }
     
     /**
      * @param bidRequest The request from the client

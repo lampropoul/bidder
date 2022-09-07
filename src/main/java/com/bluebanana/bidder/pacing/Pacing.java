@@ -42,7 +42,7 @@ public class Pacing {
     /**
      * This method runs every minute just to reset the number of bids for every campaign that were made in the last globalPacingLimit millis
      */
-    @Scheduled(fixedRate = 60000) // TODO, make configurable
+    @Scheduled(fixedRate = 60_000)
     public void resetLimits() {
         log.info("Resetting number of bids (=0) in the current time frame for all campaigns...");
         campaignsToNumOfBids

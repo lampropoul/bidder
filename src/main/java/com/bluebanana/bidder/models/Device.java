@@ -1,12 +1,12 @@
 package com.bluebanana.bidder.models;
 
-import com.bluebanana.bidder.models.enums.Os;
+import com.bluebanana.bidder.models.enums.OperatingSystem;
 import lombok.Data;
 
 @Data
 public class Device {
 
-    private Os os;
+    private OperatingSystem operatingSystem;
     private Geo geo;
 
 }

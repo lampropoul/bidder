@@ -25,7 +25,7 @@ import java.util.List;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class BidControllerTests {
+class BidControllerIntegrationTests {
     
     private final HttpHeaders httpHeaders = new HttpHeaders();
     

@@ -39,11 +39,11 @@ public class BidController {
     @PostMapping
     public ResponseEntity<BidResponse> bid(@RequestBody BidRequest bidRequest) throws IOException {
         AtomicReference<ResponseEntity<BidResponse>> responseEntity = new AtomicReference<>();
-        Optional<Campaign> highestPayingCampaign = campaignHelper.getHighestPayingCampaign(bidRequest.getDevice().getGeo().getCountry());
+        Optional<Campaign> highestPayingCampaign = campaignHelper.getHighestPayingCampaign(bidRequest.device().geo().country());
         highestPayingCampaign.ifPresentOrElse(
             campaign -> {
-                Bid bid = new Bid(campaign.getId(), campaign.getPrice(), campaign.getAdm());
-                responseEntity.set(new ResponseEntity<>(new BidResponse(bidRequest.getId(), bid), HttpStatus.OK));
+                Bid bid = new Bid(campaign.id(), campaign.price(), campaign.adm());
+                responseEntity.set(new ResponseEntity<>(new BidResponse(bidRequest.id(), bid), HttpStatus.OK));
             },
             () -> responseEntity.set(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
         return responseEntity.get();

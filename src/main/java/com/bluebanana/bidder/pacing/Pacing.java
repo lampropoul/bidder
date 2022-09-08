@@ -20,7 +20,7 @@ import com.bluebanana.bidder.helpers.MockCampaignAPI;
 @Service
 public class Pacing {
     
-    private static Logger log = LoggerFactory.getLogger(Pacing.class);
+    private static final Logger log = LoggerFactory.getLogger(Pacing.class);
     
     @Value("${global.pacing.limit}")
     public int globalPacingLimit;
@@ -42,7 +42,7 @@ public class Pacing {
         campaignsToNumOfBids = new HashMap<>();
         Arrays
             .stream(api.getAllCampaigns())
-            .forEach(campaign -> campaignsToNumOfBids.put(campaign.getId(), 0));
+            .forEach(campaign -> campaignsToNumOfBids.put(campaign.id(), 0));
     }
     
     /**

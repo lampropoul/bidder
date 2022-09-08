@@ -58,8 +58,8 @@ class BidControllerIntegrationTests {
         // verify
         Assertions.assertNotNull(response);
         Assertions.assertNotNull(response.getBody());
-        Assertions.assertNotNull(response.getBody().getBid());
-        Assertions.assertEquals(1.23, response.getBody().getBid().getPrice());
+        Assertions.assertNotNull(response.getBody().bid());
+        Assertions.assertEquals(1.23, response.getBody().bid().price());
     }
     
     /**
@@ -103,8 +103,8 @@ class BidControllerIntegrationTests {
         // verify
         Assertions.assertNotNull(response);
         Assertions.assertNotNull(response.getBody());
-        Assertions.assertNotNull(response.getBody().getBid());
-        Assertions.assertEquals(0.39, response.getBody().getBid().getPrice());
+        Assertions.assertNotNull(response.getBody().bid());
+        Assertions.assertEquals(0.39, response.getBody().bid().price());
     }
     
     private HttpEntity<BidRequest> getRequestEntity(final String resourceFilename) throws IOException {

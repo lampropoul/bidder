@@ -37,12 +37,12 @@ public class CampaignHelper {
     public Optional<Campaign> getHighestPayingCampaign(String country) throws IOException {
         return
             Arrays.stream(api.getAllCampaigns())
-                  .filter(campaign -> campaign.getTargetedCountries().contains(country))
-                  .filter(campaign -> pacing.campaignDidNotReachPacingLimit(campaign.getId()))
-                  .min((campaign1, campaign2) -> Double.compare(campaign2.getPrice(), campaign1.getPrice())) // reverse sort (DESC)
+                  .filter(campaign -> campaign.targetedCountries().contains(country))
+                  .filter(campaign -> pacing.campaignDidNotReachPacingLimit(campaign.id()))
+                  .min((campaign1, campaign2) -> Double.compare(campaign2.price(), campaign1.price())) // reverse sort (DESC)
                   .map(campaign -> {
-                      Integer numOfBids = pacing.getCampaignsToNumOfBids().get(campaign.getId());
-                      pacing.getCampaignsToNumOfBids().replace(campaign.getId(), ++numOfBids);
+                      Integer numOfBids = pacing.getCampaignsToNumOfBids().get(campaign.id());
+                      pacing.getCampaignsToNumOfBids().replace(campaign.id(), ++numOfBids);
                       return Optional.of(campaign);
                   })
                   .orElse(Optional.empty());

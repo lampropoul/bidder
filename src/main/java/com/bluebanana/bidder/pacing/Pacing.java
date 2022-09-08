@@ -11,13 +11,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.bluebanana.bidder.helpers.CampaignHelper;
 import com.bluebanana.bidder.helpers.MockCampaignAPI;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 public class Pacing {
+    
+    private static Logger log = LoggerFactory.getLogger(Pacing.class);
     
     @Value("${global.pacing.limit}")
     public int globalPacingLimit;

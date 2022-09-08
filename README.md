@@ -5,11 +5,11 @@ This project is a real-time bidder (RTB),
 which means that it receives bid requests from 3rd-party ad exchanges
 and delivers bid responses accordingly.
 The technology stack comprises of
-- Java 11
-- Maven 3.5
-- Spring Boot 2.2
+- Java 18
+- Maven 3.8
+- Spring Boot 2.7
 - JUnit 5
-- Apache Tomcat
+- Apache Tomcat 9
 - Docker CE
 
 #### Run instructions for *nix-based systems
@@ -25,7 +25,7 @@ The technology stack comprises of
     ```
     ./bidder.sh -p 8888
     ```
-    The application should now automatically download and install a Java 11 docker image,
+    The application should now automatically download and install a Java 18 docker image,
     then download maven binaries that are needed to build, test and run the project,
     run maven application tests and finally fire up Tomcat server with the deployed Bidder API. 
     Enjoy!
